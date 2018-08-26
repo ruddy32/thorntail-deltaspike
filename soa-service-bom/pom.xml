@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.timm.thorntail</groupId>
+	<artifactId>soa-service-bom</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>${project.artifactId}</name>
+	<description>SOA Service BOM</description>
+
+	<properties>
+		<!-- JEE API version -->
+		<microprofile.version>1.3</microprofile.version>
+		<cxf.version>3.2.4</cxf.version>
+        <swagger.version>1.5.18</swagger.version>
+
+		<!-- Persistence -->
+		<h2.version>1.4.197</h2.version>
+		<postgresql.version>42.2.4</postgresql.version>
+		<hibernate.version>5.0.9.Final</hibernate.version>
+		<hibernate-annotations.version>3.5.6-Final</hibernate-annotations.version>
+        <hibernate-validator.version>4.3.1.Final</hibernate-validator.version>
+
+		<!-- Logging -->
+		<slf4j.version>1.7.25</slf4j.version>
+		<logback.version>1.2.3</logback.version>
+		
+		<!-- Librairies version -->
+		<apache-poi.version>3.17</apache-poi.version>
+		<apache-xerces.version>2.11.0</apache-xerces.version>
+        <jackson.version>2.9.4</jackson.version>
+		<maven-model.version>3.5.0</maven-model.version>
+        <swizzle-stream.version>1.6.2</swizzle-stream.version>
+		<soa-model-core.version>1.6.0</soa-model-core.version>
+
+		<!-- Apache commons -->
+		<commons-csv.version>1.5</commons-csv.version>
+		
+		<!-- SOA Architect -->
+		<java-analyzer.version>0.0.1-SNAPSHOT</java-analyzer.version>
+
+		<!-- Arquillian -->
+		<!-- <arquillian-transaction-jta.version>1.2.0.1</arquillian-transaction-jta.version> -->
+		<arquillian-transaction-jta.version>1.0.5</arquillian-transaction-jta.version>
+
+        <!-- Deltaspike unit test -->
+        <geronimo-jpa-2.0-spec.version>1.1</geronimo-jpa-2.0-spec.version>
+        <geronimo-jta-1.1-spec.version>1.1.1</geronimo-jta-1.1-spec.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Apache commons -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-csv</artifactId>
+				<version>${commons-csv.version}</version>
+			</dependency>
+
+			<!-- JEE Microprofile for micro-service feature -->
+			<dependency>
+				<groupId>org.eclipse.microprofile</groupId>
+				<artifactId>microprofile</artifactId>
+				<version>${microprofile.version}</version>
+				<type>pom</type>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- Logging -->
+			<!-- <dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency> -->
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+			
+            <!-- Swagger -->
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-jaxrs</artifactId>
+                <version>${swagger.version}</version>
+                <exclusions>
+                	<exclusion>
+						<groupId>org.apache.commons</groupId>
+						<artifactId>commons-lang3</artifactId>
+                	</exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.jaxrs</groupId>
+                <artifactId>jackson-jaxrs-json-provider</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.datatype</groupId>
+				<artifactId> jackson-datatype-jdk8</artifactId>
+                <version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.datatype</groupId>
+				<artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.datatype</groupId>
+				<artifactId>jackson-datatype-joda</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+            <dependency>
+                <groupId>org.codehaus.swizzle</groupId>
+                <artifactId>swizzle-stream</artifactId>
+                <version>${swizzle-stream.version}</version>
+            </dependency>
+            <!-- Apache CXF -->
+	        <dependency>
+	            <groupId>org.apache.cxf</groupId>
+	            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+	            <version>${cxf.version}</version>
+	        </dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-rs-security-oauth2</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
+			<!-- Persistence -->
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+				<scope>provided</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.jboss.logging</groupId>
+						<artifactId>jboss-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+				<scope>provided</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.jboss.logging</groupId>
+						<artifactId>jboss-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<!-- <dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-annotations</artifactId>
+				<version>${hibernate-annotations.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency> -->
+
+			<!-- Maven API -->
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-model</artifactId>
+				<version>${maven-model.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.predic8</groupId>
+				<artifactId>soa-model-core</artifactId>
+				<version>${soa-model-core.version}</version>
+			</dependency>
+
+			<!-- Apache POI (Office docs integration) -->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>${apache-poi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${apache-poi.version}</version>
+			</dependency>
+
+			<!-- Apache Xerces (XML support) -->
+			<dependency>
+				<groupId>xerces</groupId>
+				<artifactId>xercesImpl</artifactId>
+				<version>${apache-xerces.version}</version>
+			</dependency>
+
+			<!-- Unit test -->
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${h2.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- <dependency>
+				<groupId>org.arquillian.universe</groupId>
+				<artifactId>arquillian-transaction-jta</artifactId>
+				<version>${arquillian-transaction-jta.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency> -->
+			<!-- <dependency>
+				<groupId>org.jboss.arquillian.extension</groupId>
+				<artifactId>arquillian-transaction-jta</artifactId>
+				<version>${arquillian-transaction-jta.version}</version>
+			</dependency> -->
+			
+			<!-- Deltaspike unit test -->
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jpa_2.0_spec</artifactId>
+                <version>${geronimo-jpa-2.0-spec.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jta_1.1_spec</artifactId>
+                <version>${geronimo-jta-1.1-spec.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- validators, only needed in SE mode -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+                <scope>test</scope>
+            </dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>

@@ -1,0 +1,1 @@
+INSERT INTO sample.role(id, name, description) VALUES (1, 'Test', 'Unit test role')

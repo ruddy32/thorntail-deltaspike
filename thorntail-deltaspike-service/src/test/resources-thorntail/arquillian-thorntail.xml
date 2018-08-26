@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://jboss.org/schema/arquillian"
+	xsi:schemaLocation="http://jboss.org/schema/arquillian http://www.jboss.org/schema/arquillian/arquillian_1_0.xsd">
+	<container qualifier="thorntail" default="true">
+        <configuration>
+            <property name="host">localhost</property>
+            <property name="port">${arquillian-thorntail-daemon-port:12346}</property>
+        </configuration>
+    </container>
+	<!-- <extension qualifier="webdriver">
+		<property name="browser">phantomjs</property>
+	</extension> -->
+</arquillian>

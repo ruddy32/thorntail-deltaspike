@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.timm.thorntail</groupId>
+	<artifactId>soa-parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>${project.artifactId}</name>
+	<description>SOA Parent project</description>
+
+	<properties>
+		<!-- Explicitly declaring the source encoding eliminates the following message: [WARNING] Using platform encoding (UTF-8 
+			actually) to copy filtered resources, i.e. build is platform dependent! -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- Java -->
+		<project.java.version>1.8</project.java.version>
+
+		<!-- To set the jboss.home environment variable the Maven way, set the jboss.home property in an active profile in the 
+			Maven 2 settings.xml file -->
+		<jboss.home>${env.JBOSS_HOME}</jboss.home>
+		<jboss.domain>default</jboss.domain>
+
+		<!-- Unit test -->
+		<browser>phantomjs</browser>	
+	
+		<!-- SOA BOM -->
+		<soa-bom.version>1.0.0-SNAPSHOT</soa-bom.version>
+
+		<!-- Maven plugins (compatibilité >= Maven 3.5.x) -->
+		<install-plugin.version>2.5.2</install-plugin.version>
+		<compiler.plugin.version>3.7.0</compiler.plugin.version>
+		<jar.plugin.version>3.1.0</jar.plugin.version>
+		<war.plugin.version>3.2.2</war.plugin.version>
+		<surefire.plugin.version>2.22.0</surefire.plugin.version>
+		<failsafe.plugin.version>2.22.0</failsafe.plugin.version>
+		<dependency.plugin.version>3.1.1</dependency.plugin.version>
+		<assembly.plugin.version>3.1.0</assembly.plugin.version>
+		<build-helper.plugin.version>3.0.0</build-helper.plugin.version>
+		<jqassistant-maven-plugin.version>1.4.0</jqassistant-maven-plugin.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill of Materials (BOM). A BOM specifies the versions 
+				of a "stack" (or a collection) of artifacts. We use this here so that we always get the correct versions of artifacts. Here 
+				we use the jboss-javaee-6.0-with-deltaspike stack (you can read this as the JBoss stack of the Java EE 6 APIs with Deltaspike). 
+				You can actually use this stack with any version of JBoss that implements Java EE 6, not just JBoss EAP 6! -->
+			<dependency>
+				<groupId>com.timm.thorntail</groupId>
+				<artifactId>soa-bom</artifactId>
+				<version>${soa-bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- Logging -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+		</dependency>
+		
+		<!-- Unit test -->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<!-- <finalName>${artifactId}</finalName> -->
+		<pluginManagement>
+			<plugins>
+                <!-- This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-install-plugin</artifactId>
+                                        <versionRange>[${maven-install-plugin.version},)</versionRange>
+                                        <goals>
+                                            <goal>install</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${install-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<!-- Compilation Java -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${compiler.plugin.version}</version>
+					<configuration>
+						<source>${project.java.version}</source>
+						<target>${project.java.version}</target>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<!-- Gestion des dépendences -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${dependency.plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<!-- Test unitaires -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${surefire.plugin.version}</version>
+					<configuration>
+						<systemPropertyVariables>
+							<phantomjs.binary.version>2.1.1</phantomjs.binary.version>
+							<org.apache.maven.user-settings>${session.request.userSettingsFile.path}</org.apache.maven.user-settings>
+						</systemPropertyVariables>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>${failsafe.plugin.version}</version>
+					<configuration>
+						<systemPropertyVariables>
+							<phantomjs.binary.version>2.1.1</phantomjs.binary.version>
+							<org.apache.maven.user-settings>${session.request.userSettingsFile.path}</org.apache.maven.user-settings>
+						</systemPropertyVariables>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>integration-test</goal>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<!-- Assembly -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${assembly.plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>${build-helper.plugin.version}</version>
+					<executions>
+						<execution>
+							<id>add-source</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>add-test-source</goal>
+							</goals>
+							<configuration>
+								<sources>
+									<source>src/test/java</source>
+								</sources>
+							</configuration>
+						</execution>
+						<execution>
+							<id>add-resource</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>add-test-resource</goal>
+							</goals>
+							<configuration>
+								<resources>
+									<resource>
+										<directory>src/test/resources</directory>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>com.buschmais.jqassistant</groupId>
+					<artifactId>jqassistant-maven-plugin</artifactId>
+					<version>${jqassistant-maven-plugin.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>scan</goal>
+								<goal>analyze</goal>
+							</goals>
+							<configuration>
+								<!-- <store>
+									<uri>bolt://localhost:7687</uri>
+									<username>neo4j</username>
+									<password>neo4j</password>
+								</store> -->
+								<warnOnSeverity>MINOR</warnOnSeverity>
+								<failOnSeverity>MAJOR</failOnSeverity>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<!-- Packaging JAR -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${jar.plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<!-- Packaging WAR -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${war.plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Repository Group</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>com.buschmais.jqassistant</groupId>
+				<artifactId>jqassistant-maven-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+</project>

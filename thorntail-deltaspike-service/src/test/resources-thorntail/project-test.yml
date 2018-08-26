@@ -1,0 +1,13 @@
+swarm:
+  datasources:
+    jdbc-drivers:
+      org.h2:
+        driver-class-name: org.h2.Driver
+        xa-datasource-class-name: org.h2.jdbcx.JdbcDataSource
+        driver-module-name: com.h2database.h2
+    data-sources:
+      thorntail-deltaspike-service-ds:
+        driver-name: org.h2
+        connection-url: jdbc:h2:mem:sample;db_close_delay=-1;db_close_on_exit=false;init=create schema if not exists sample;
+        user-name: sa
+        password: sa
