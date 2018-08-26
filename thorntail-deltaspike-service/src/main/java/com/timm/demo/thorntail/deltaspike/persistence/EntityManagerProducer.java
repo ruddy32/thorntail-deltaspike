@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 //public class EntityManagerProducer {
 //
 //	@Inject
-//	@PersistenceUnitName("sirh-architect")
+//	@PersistenceUnitName("thorntail-deltaspike")
 //	private EntityManagerFactory entityManagerFactory;
 //
 //	@Produces
@@ -48,7 +48,7 @@ public class EntityManagerProducer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EntityManagerProducer.class);
 
-	private static final String DEFAULT_PERSISTENCE_UNIT = "sirh-architect";
+	private static final String DEFAULT_PERSISTENCE_UNIT = "thorntail-deltaspike";
 
 	private EntityManagerFactory emf;
 

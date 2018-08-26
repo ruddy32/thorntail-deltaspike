@@ -65,8 +65,8 @@ public abstract class TestDeployments {
 				.addAsWebInfResource(new StringAsset(DS_PROPERTIES_WITH_ENV_AWARE_TX_STRATEGY),
 						"classes/META-INF/apache-deltaspike.properties")
 				// .addAsWebInfResource(new
-				// ClassLoaderAsset("mas-sirh-test-cxf-service-test-ds.xml",
-				// TestDeployments.class.getClassLoader()), "mas-sirh-test-cxf-service-ds.xml")
+				// ClassLoaderAsset("thorntail-deltaspike-service-test-ds.xml",
+				// TestDeployments.class.getClassLoader()), "thorntail-deltaspike-service-ds.xml")
 				.addAsResource(
 						new ClassLoaderAsset("project-defaults-test.yml", TestDeployments.class.getClassLoader()),
 						"project-defaults.yml")

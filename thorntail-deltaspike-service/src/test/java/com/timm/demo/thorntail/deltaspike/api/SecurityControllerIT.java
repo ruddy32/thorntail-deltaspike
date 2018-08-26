@@ -67,7 +67,7 @@ public class SecurityControllerIT extends TransactionalTestCase {
 		user.setName("test");
 		user.setRoles(new String[] { "test" });
 
-		ISecurity security = getSecurity("mas-sirh-security-service/user");
+		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
 		Response response = security.addUser(user);
 
 		MatcherAssert.assertThat(response.getStatus(), Is.is(Response.Status.OK.getStatusCode()));
@@ -80,7 +80,7 @@ public class SecurityControllerIT extends TransactionalTestCase {
 	@RunAsClient
 	@InSequence(2)
 	public void testGetUser() {
-		ISecurity security = getSecurity("mas-sirh-security-service/user");
+		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
 		Response response = security.getUser(userId);
 		UserDTO user = response.readEntity(UserDTO.class);
 
@@ -92,7 +92,7 @@ public class SecurityControllerIT extends TransactionalTestCase {
 	@RunAsClient
 	@InSequence(3)
 	public void testFindUser() {
-		ISecurity security = getSecurity("mas-sirh-security-service/user");
+		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
 		Response response = security.findUser("test@test.fr");
 		UserDTO user = response.readEntity(UserDTO.class);
 
@@ -104,7 +104,7 @@ public class SecurityControllerIT extends TransactionalTestCase {
 	@RunAsClient
 	@InSequence(4)
 	public void testEditUser() {
-		ISecurity security = getSecurity("mas-sirh-security-service/user");
+		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
 		Response response = security.getUser(userId);
 		UserDTO user = response.readEntity(UserDTO.class);
 		user.setName("test2");
@@ -116,7 +116,7 @@ public class SecurityControllerIT extends TransactionalTestCase {
 	@Test
 	@InSequence(5)
 	public void testRemoveUser() {
-		ISecurity security = getSecurity("mas-sirh-security-service/user");
+		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
 		Response response = security.removeUser(userId);
 
 		MatcherAssert.assertThat(response.getStatus(), Is.is(Response.Status.OK.getStatusCode()));

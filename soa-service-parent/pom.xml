@@ -241,7 +241,7 @@
 									<wadlOption>
 	                                   <wadlArtifact>
 	                                        <groupId>${project.groupId}</groupId>
-	                                        <artifactId>mas-sirh-security-service</artifactId>
+	                                        <artifactId>thorntail-deltaspike-service</artifactId>
 	                                        <version>${project.version}</version>
 	                                        <type>wadl</type>
 	                                    </wadlArtifact>
