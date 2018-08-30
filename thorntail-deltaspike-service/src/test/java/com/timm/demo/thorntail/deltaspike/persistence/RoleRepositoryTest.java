@@ -6,28 +6,23 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.LoggerFactory;
 
 import com.timm.demo.thorntail.deltaspike.entity.Role;
-import com.timm.demo.thorntail.deltaspike.mapper.RoleMapper;
-import com.timm.demo.thorntail.deltaspike.persistence.RoleRepository;
+import com.timm.demo.thorntail.deltaspike.utils.TestDeployments;
 
 @RunWith(Arquillian.class)
 public class RoleRepositoryTest {
 
 	@Deployment
-	public static Archive createDeployment() {
-		return ShrinkWrap.create(WebArchive.class, RoleRepositoryTest.class.getSimpleName() + ".war")
-				.addPackage(Role.class.getPackage()).addPackage(RoleRepository.class.getPackage())
-				.addPackage(RoleMapper.class.getPackage()).addAsResource("modules")
-				.addAsResource("project-test.yml", "project-defaults.yml")
-				.addAsResource("META-INF/beans-test.xml", "beans.xml")
-				.addAsResource("META-INF/persistence-test.xml", "META-INF/persistence.xml")
-				.addAsResource("META-INF/test-load.sql", "META-INF/test-load.sql");
+	public static Archive<?> createDeployment() throws IllegalArgumentException {
+		WebArchive archive = TestDeployments.initWebDeployment(RoleRepositoryTest.class.getSimpleName() + ".war");
+		LoggerFactory.getLogger(RoleRepositoryTest.class).debug(archive.toString(true));
+		return archive;
 	}
 
 	@Inject

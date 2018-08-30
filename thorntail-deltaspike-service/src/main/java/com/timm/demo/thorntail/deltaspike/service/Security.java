@@ -4,6 +4,7 @@
 package com.timm.demo.thorntail.deltaspike.service;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 
 import com.timm.demo.thorntail.deltaspike.domain.RoleDTO;
@@ -21,6 +22,7 @@ import fr.xebia.extras.selma.Selma;
 /**
  * @author sbonnemaison3
  */
+@Default
 @ApplicationScoped
 public class Security {
 

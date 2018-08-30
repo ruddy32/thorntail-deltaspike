@@ -18,13 +18,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.LoggerFactory;
 
-import com.timm.demo.TransactionalTestCase;
-import com.timm.demo.thorntail.deltaspike.api.ISecurity;
 import com.timm.demo.thorntail.deltaspike.domain.UserDTO;
 import com.timm.demo.thorntail.deltaspike.utils.TestDeployments;
 
 @RunWith(Arquillian.class)
-public class SecurityControllerTest extends TransactionalTestCase {
+public class SecurityControllerTest {
 
 	// ======================================
 	// = Injection Points =
@@ -42,15 +40,11 @@ public class SecurityControllerTest extends TransactionalTestCase {
 	// ======================================
 
 	@Deployment
-	public static Archive<?> createDeployment() throws Exception {
-		try {
-			Archive<?> deployment = TestDeployments.initDeployment(SecurityControllerTest.class.getSimpleName());
-			LoggerFactory.getLogger(SecurityControllerTest.class).debug(deployment.toString(true));
-			return deployment;
-		} catch (Exception e) {
-			LoggerFactory.getLogger(SecurityControllerTest.class).error("Failed to init Arquillian test.", e);
-			throw e;
-		}
+	public static Archive<?> createDeployment() throws IllegalArgumentException, Exception {
+		Archive<?> archive = TestDeployments
+				.initJAXRSDeployment(SecurityControllerTest.class.getSimpleName() + ".war");
+		LoggerFactory.getLogger(SecurityControllerTest.class).debug(archive.toString(true));
+		return archive;
 	}
 
 	// ======================================

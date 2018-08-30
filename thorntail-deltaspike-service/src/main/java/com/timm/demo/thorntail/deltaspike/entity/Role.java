@@ -27,6 +27,8 @@ public class Role implements Serializable {
 	public static final String REMOVE_BY_ID = "role.removeById";
 
 	@Id
+	@Column(name = "id")
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_seq")
 	private Long id;
 

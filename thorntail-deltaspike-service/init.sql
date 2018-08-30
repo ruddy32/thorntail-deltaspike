@@ -1,0 +1,2 @@
+CREATE DATABASE sample;
+CREATE USER test WITH PASSWORD 'test';

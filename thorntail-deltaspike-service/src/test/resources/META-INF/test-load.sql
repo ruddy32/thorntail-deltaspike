@@ -1,1 +1,4 @@
-INSERT INTO sample.role(id, name, description) VALUES (1, 'Test', 'Unit test role')
+-- INSERT INTO sample.role(id, name, description) VALUES (default, 'Test', 'Unit test role');
+-- INSERT INTO sample.role(id, name, description) VALUES (0, 'Test', 'Unit test role');
+-- INSERT INTO sample.role(name, description) VALUES ('Test', 'Unit test role');
+-- INSERT INTO sample.role(id, name, description) VALUES (nextval('sample.role_id_seq'), 'Test', 'Unit test role');

@@ -13,12 +13,13 @@ import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 import com.timm.demo.TransactionalTestCase;
-import com.timm.demo.thorntail.deltaspike.api.ISecurity;
 import com.timm.demo.thorntail.deltaspike.domain.UserDTO;
 
 @RunWith(Arquillian.class)
+@DefaultDeployment
 public class SecurityControllerIT extends TransactionalTestCase {
 
 	// ======================================
@@ -31,24 +32,6 @@ public class SecurityControllerIT extends TransactionalTestCase {
 	private Long userId;
 
 	// private Long roleId;
-
-	// ======================================
-	// = Deployment methods =
-	// ======================================
-
-	// @Deployment
-	// @TargetsContainer("arquillian-thorntail")
-	// public static Archive<?> createDeployment() throws Exception {
-	// try {
-	// Archive<?> deployment = TestDeployments.initDeployment();
-	// LoggerFactory.getLogger(SecurityControllerIT.class).debug(deployment.toString(true));
-	// return deployment;
-	// } catch (Exception e) {
-	// LoggerFactory.getLogger(SecurityControllerIT.class).error("Failed to init
-	// Arquillian test.", e);
-	// throw e;
-	// }
-	// }
 
 	// ======================================
 	// = Lifecycle methods =

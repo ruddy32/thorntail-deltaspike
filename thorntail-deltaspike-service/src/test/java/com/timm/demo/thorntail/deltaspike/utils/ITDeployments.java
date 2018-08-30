@@ -32,7 +32,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
 
-public abstract class TestDeployments {
+public abstract class ITDeployments {
 
 	public static String DS_PROPERTIES_WITH_ENV_AWARE_TX_STRATEGY = "globalAlternatives.org.apache.deltaspike.jpa.spi.transaction.TransactionStrategy="
 			+ "org.apache.deltaspike.jpa.impl.transaction.BeanManagedUserTransactionStrategy"
@@ -60,9 +60,9 @@ public abstract class TestDeployments {
 
 		ResourceContainer<?> rContainer = (ResourceContainer<?>) archive;
 		rContainer.addAsResource("modules");
-		rContainer.addAsResource("project-test.yml", "project-defaults.yml");
-		rContainer.addAsResource("META-INF/beans-test.xml", "beans.xml");
-		rContainer.addAsResource("META-INF/persistence-test.xml", "META-INF/persistence.xml");
+		rContainer.addAsResource("project-it.yml", "project-defaults.yml");
+		rContainer.addAsResource("META-INF/beans-it.xml", "beans.xml");
+		rContainer.addAsResource("META-INF/persistence-it.xml", "META-INF/persistence.xml");
 		rContainer.addAsResource("META-INF/h2-create.sql", "META-INF/h2-create.sql");
 		rContainer.addAsResource("META-INF/h2-drop.sql", "META-INF/h2-drop.sql");
 		rContainer.addAsResource("META-INF/test-load.sql", "META-INF/test-load.sql");
