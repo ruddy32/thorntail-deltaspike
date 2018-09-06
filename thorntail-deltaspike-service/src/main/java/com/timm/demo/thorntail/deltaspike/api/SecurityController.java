@@ -5,8 +5,9 @@ package com.timm.demo.thorntail.deltaspike.api;
 
 import java.net.URI;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
 
 import com.timm.demo.thorntail.deltaspike.domain.Auth;
@@ -15,9 +16,10 @@ import com.timm.demo.thorntail.deltaspike.domain.UserDTO;
 import com.timm.demo.thorntail.deltaspike.service.Security;
 
 /**
- * @author sbonnemaison3
+ * @author ruddy32
  */
-@ApplicationScoped
+@RequestScoped
+@Transactional
 public class SecurityController implements ISecurity {
 
 	@Inject

@@ -3,6 +3,7 @@
  */
 package com.timm.demo.thorntail.deltaspike.api;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,18 +26,17 @@ import io.swagger.annotations.ApiResponses;
 /**
  * Security operations.
  *
- * @author sbonnemaison3
+ * @author ruddy32
  */
 @Path(value = "/security")
+@Produces(MediaType.APPLICATION_JSON)
 @Api(value = "/security")
-@Produces({ MediaType.APPLICATION_JSON })
 public interface ISecurity {
 
 	/**
-	 * Mise à jour d'un projet pour une verion du programme.
+	 * Get user account from id.
 	 *
-	 * @param projectId
-	 * @param projectInfo
+	 * @param id
 	 */
 	@GET
 	@Path(value = "/user/{id}")
@@ -46,10 +46,9 @@ public interface ISecurity {
 	Response getUser(@PathParam("id") Long id);
 
 	/**
-	 * Mise à jour d'un projet pour une verion du programme.
+	 * Find user accout from UID.
 	 *
-	 * @param projectId
-	 * @param projectInfo
+	 * @param uid
 	 */
 	@GET
 	@Path(value = "/user/byUid//{uid}")
@@ -59,47 +58,47 @@ public interface ISecurity {
 	Response findUser(@PathParam("uid") String uid);
 
 	/**
-	 * Mise à jour d'un projet pour une verion du programme.
+	 * User authentication.
 	 *
-	 * @param projectId
-	 * @param projectInfo
+	 * @param auth
 	 */
 	@POST
 	@Path(value = "/logon")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "User authentication", response = UserDTO.class)
 	@ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid credential supplied"),
 			@ApiResponse(code = 404, message = "User not found") })
 	Response logon(Auth auth);
 
 	/**
-	 * Mise à jour d'un projet pour une verion du programme.
+	 * Create user account.
 	 *
-	 * @param projectId
-	 * @param projectInfo
+	 * @param user
 	 */
-	@PUT
+	@POST
 	@Path(value = "/user")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Register user", response = UserDTO.class)
 	@ApiResponses({ @ApiResponse(code = 400, message = "Invalid User") })
 	Response addUser(UserDTO user);
 
 	/**
-	 * Mise à jour d'un projet pour une verion du programme.
+	 * Update user account.
 	 *
-	 * @param projectId
-	 * @param projectInfo
+	 * @param id
+	 * @param user
 	 */
 	@PUT
 	@Path(value = "/user/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Update user")
 	@ApiResponses({ @ApiResponse(code = 400, message = "Invalid User") })
 	Response editUser(@PathParam("id") Long id, UserDTO user);
 
 	/**
-	 * Mise à jour d'un projet pour une verion du programme.
+	 * Remove user account.
 	 *
-	 * @param projectId
-	 * @param projectInfo
+	 * @param id
 	 */
 	@DELETE
 	@Path(value = "/user/{id}")
@@ -109,10 +108,9 @@ public interface ISecurity {
 	Response removeUser(@PathParam("id") Long id);
 
 	/**
-	 * Mise à jour d'un projet pour une verion du programme.
+	 * Get user role by id.
 	 *
-	 * @param projectId
-	 * @param projectInfo
+	 * @param id
 	 */
 	@GET
 	@Path(value = "/role/{id}")
@@ -122,47 +120,47 @@ public interface ISecurity {
 	Response getRole(@PathParam("id") Long id);
 
 	/**
-	 * Mise à jour d'un projet pour une verion du programme.
+	 * Search user role by code.
 	 *
-	 * @param projectId
-	 * @param projectInfo
+	 * @param code
 	 */
 	@GET
 	@Path(value = "/role")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Find role by code", notes = "Unknown code will generated exceptions", response = UserDTO.class)
 	@ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid ID supplied"),
 			@ApiResponse(code = 404, message = "Role not found") })
 	Response findRole(String code);
 
 	/**
-	 * Mise à jour d'un projet pour une verion du programme.
+	 * Create user role.
 	 *
-	 * @param projectId
-	 * @param projectInfo
+	 * @param role
 	 */
 	@POST
 	@Path(value = "/role")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Register role", response = RoleDTO.class)
 	@ApiResponses({ @ApiResponse(code = 400, message = "Invalid role") })
 	Response addRole(RoleDTO role);
 
 	/**
-	 * Mise à jour d'un projet pour une verion du programme.
+	 * Update user role.
 	 *
-	 * @param projectId
-	 * @param projectInfo
+	 * @param id
+	 * @param role
 	 */
-	@POST
+	@PUT
 	@Path(value = "/role/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Update role")
 	@ApiResponses({ @ApiResponse(code = 400, message = "Invalid role") })
 	Response editRole(@PathParam("id") Long id, RoleDTO role);
 
 	/**
-	 * Mise à jour d'un projet pour une verion du programme.
+	 * Remove user role.
 	 *
-	 * @param projectId
-	 * @param projectInfo
+	 * @param id
 	 */
 	@DELETE
 	@Path(value = "/role/{id}")

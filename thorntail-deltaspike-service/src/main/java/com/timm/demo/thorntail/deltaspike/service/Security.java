@@ -20,7 +20,7 @@ import com.timm.demo.thorntail.deltaspike.persistence.UserRoleRelRepository;
 import fr.xebia.extras.selma.Selma;
 
 /**
- * @author sbonnemaison3
+ * @author ruddy32
  */
 @Default
 @ApplicationScoped

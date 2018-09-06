@@ -9,9 +9,9 @@ import javax.ws.rs.core.Application;
  */
 @ApplicationScoped
 @ApplicationPath("/")
-public class JaxRsActivator extends Application {
+public class JAXRSActivator extends Application {
 
-	// @PersistenceContext(name = "sample")
+	// @PersistenceContext(name = "thorntail-deltaspike")
 	// @Produces
 	// private EntityManager entityManager;
 }

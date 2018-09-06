@@ -31,6 +31,7 @@
 		<cxf-wadl2java-plugin.version>3.2.5</cxf-wadl2java-plugin.version>
 		<cxf-codegen-plugin.version>3.2.5</cxf-codegen-plugin.version>
 		<fabric8-maven-plugin.version>0.22.1</fabric8-maven-plugin.version>
+		<maven-enforcer-plugin.verion>1.4.1</maven-enforcer-plugin.verion>
 	</properties>
 
 	<dependencyManagement>
@@ -73,6 +74,18 @@
 			<groupId>io.thorntail</groupId>
 			<artifactId>jaxrs-jaxb</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.thorntail</groupId>
+			<artifactId>microprofile-restclient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxb-provider</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson2-provider</artifactId>
+		</dependency>
 	    <!-- Fractions introduced by MicroProfile 1.2 -->
 	    <dependency>
 	      <groupId>io.thorntail</groupId>
@@ -101,16 +114,7 @@
 			<groupId>org.apache.deltaspike.cdictrl</groupId>
 			<artifactId>deltaspike-cdictrl-weld</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.thorntail</groupId>
-			<artifactId>arquillian</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.thorntail</groupId>
-			<artifactId>microprofile-restclient</artifactId>
-			<scope>test</scope>
-		</dependency>
+
 		<!-- Logging -->
 		<!-- <dependency>
 			<groupId>org.slf4j</groupId>
@@ -135,6 +139,11 @@
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
 			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.thorntail</groupId>
+			<artifactId>arquillian</artifactId>
 			<scope>test</scope>
 		</dependency>
 

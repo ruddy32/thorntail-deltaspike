@@ -21,6 +21,7 @@ package com.timm.demo.thorntail.deltaspike.utils;
 import java.io.File;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.Filters;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -32,11 +33,14 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.wildfly.swarm.jaxrs.JAXRSArchive;
 
+import com.timm.demo.thorntail.deltaspike.api.JAXRSActivator;
+
 public abstract class TestDeployments {
 
 	public static String DS_PROPERTIES_WITH_ENV_AWARE_TX_STRATEGY = "globalAlternatives.org.apache.deltaspike.jpa.spi.transaction.TransactionStrategy="
-			+ "org.apache.deltaspike.jpa.impl.transaction.BeanManagedUserTransactionStrategy"
+			+ "org.apache.deltaspike.jpa.impl.transaction.ContainerManagedTransactionStrategy"
 	// Different Deltaspike JPA configuration options :
+	// "org.apache.deltaspike.jpa.impl.transaction.ContainerManagedTransactionStrategy"
 	// "org.apache.deltaspike.jpa.impl.transaction.BeanManagedUserTransactionStrategy"
 	// "org.apache.deltaspike.jpa.impl.transaction.ResourceLocalTransactionStrategy"
 	// "org.apache.deltaspike.jpa.impl.transaction.EnvironmentAwareTransactionStrategy"
@@ -51,7 +55,8 @@ public abstract class TestDeployments {
 	 */
 	public static <T extends Archive<?>> T initDeployment(String archiveName, Class<T> archiveClass)
 			throws IllegalArgumentException {
-		String packageName = "com.timm.demo.thorntail.deltaspike";
+		String packageName = StringUtils.removeEnd(JAXRSActivator.class.getName(),
+				".api." + JAXRSActivator.class.getSimpleName());
 
 		T archive = ShrinkWrap.create(archiveClass, archiveName);
 

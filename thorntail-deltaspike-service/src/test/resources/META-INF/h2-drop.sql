@@ -1,14 +1,19 @@
 
 --
+-- Relations
+--
+drop table sample.user_role_rel if exists;
+
+--
 -- User
 --
 
-DROP TABLE IF EXISTS sample.user;
-DROP SEQUENCE IF EXISTS sample.user_id_seq;
+drop table sample.user if exists;
+drop sequence if exists sample.user_id_seq;
 
 --
 -- Role
 --
 
-DROP TABLE IF EXISTS sample.role;
-DROP SEQUENCE IF EXISTS sample.role_id_seq;
+drop table sample.role if exists;
+drop sequence if exists sample.role_id_seq;
