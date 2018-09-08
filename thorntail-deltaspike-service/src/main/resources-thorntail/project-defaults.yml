@@ -11,3 +11,6 @@ swarm:
         connection-url: jdbc:postgresql://localhost:5432/sample;init=create schema if not exists sample;
         user-name: caa
         password: caa
+    swagger:
+      packages:
+        - com.timm.demo.thorntail.deltaspike.api

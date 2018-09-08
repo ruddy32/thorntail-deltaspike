@@ -8,7 +8,6 @@ import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.Is;
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -54,7 +53,6 @@ public class SecurityControllerTest {
 	// ======================================
 
 	@Test
-	@RunAsClient
 	@InSequence(1)
 	public void testAddUser() {
 		final UserDTO user = new UserDTO();
@@ -72,7 +70,6 @@ public class SecurityControllerTest {
 	}
 
 	@Test
-	@RunAsClient
 	@InSequence(2)
 	public void testGetUser() {
 		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
@@ -84,7 +81,6 @@ public class SecurityControllerTest {
 	}
 
 	@Test
-	@RunAsClient
 	@InSequence(3)
 	public void testFindUser() {
 		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
@@ -96,7 +92,6 @@ public class SecurityControllerTest {
 	}
 
 	@Test
-	@RunAsClient
 	@InSequence(4)
 	public void testEditUser() {
 		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
