@@ -11,7 +11,7 @@ import com.timm.demo.thorntail.deltaspike.entity.Role;
 @Repository
 public interface RoleRepository extends EntityRepository<Role, Long> {
 
-	Long countByName(String name);
+	long countByName(String name);
 
 	@Query(named = Role.SELECT_BY_NAME)
 	Role findByName(@QueryParam("name") String name);

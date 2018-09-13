@@ -11,7 +11,7 @@ import com.timm.demo.thorntail.deltaspike.entity.User;
 @Repository
 public interface UserRepository extends EntityRepository<User, Long> {
 
-	Long countByUid(String uid);
+	long countByUid(String uid);
 
 	@Query(named = User.SELECT_BY_UID)
 	User findByUid(@QueryParam("uid") String uid);

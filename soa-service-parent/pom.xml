@@ -148,13 +148,13 @@
 		</dependency>
 
 		<!-- Integration test -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.jboss.arquillian.graphene</groupId>
 			<artifactId>graphene-webdriver</artifactId>
 			<version>${arquillian-graphene.version}</version>
 			<type>pom</type>
 			<scope>test</scope>
-		</dependency> -->
+		</dependency>
 	</dependencies>
 	
 	<build>
@@ -369,12 +369,6 @@
 					</configuration>
 					<executions>
 						<execution>
-							<id>package</id>
-							<goals>
-								<goal>package</goal>
-							</goals>
-						</execution>
-						<!-- <execution>
 							<id>start</id>
 							<phase>pre-integration-test</phase>
 							<goals>
@@ -391,7 +385,7 @@
 							<goals>
 								<goal>stop</goal>
 							</goals>
-						</execution> -->
+						</execution>
 					</executions>
 				</plugin>
 				<plugin>
@@ -418,11 +412,14 @@
 							<resource>src/test/resources-thorntail</resource>
 						</resources>
 						<systemPropertyVariables>
+							<phantomjs.binary.version>2.1.1</phantomjs.binary.version>
 							<swarm.arquillian.daemon.port>12346</swarm.arquillian.daemon.port>
 							<arquillian.xml>arquillian-thorntail.xml</arquillian.xml>
 							<arquillian.launch>thorntail</arquillian.launch>
 						</systemPropertyVariables>
 					</configuration>
+					<dependencies>
+					</dependencies>
 				</plugin>
 				<!-- <plugin>
 					<groupId>org.codehaus.mojo</groupId>

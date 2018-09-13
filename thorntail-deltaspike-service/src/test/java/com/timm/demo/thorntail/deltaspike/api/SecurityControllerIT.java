@@ -7,19 +7,16 @@ import javax.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.Is;
-import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.Archive;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.LoggerFactory;
+import org.wildfly.swarm.arquillian.DefaultDeployment;
 
 import com.timm.demo.thorntail.deltaspike.domain.UserDTO;
-import com.timm.demo.thorntail.deltaspike.utils.ITDeployments;
 
 @RunWith(Arquillian.class)
 public class SecurityControllerIT {
@@ -38,13 +35,6 @@ public class SecurityControllerIT {
 	// ======================================
 	// = Deployment methods =
 	// ======================================
-
-	@Deployment
-	public static Archive<?> createDeployment() throws IllegalArgumentException, Exception {
-		Archive<?> archive = ITDeployments.initJAXRSDeployment(SecurityControllerIT.class.getSimpleName() + ".war");
-		LoggerFactory.getLogger(SecurityControllerIT.class).debug(archive.toString(true));
-		return archive;
-	}
 
 	// ======================================
 	// = Lifecycle methods =
