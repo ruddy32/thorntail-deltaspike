@@ -2,7 +2,6 @@ package com.timm.demo.thorntail.deltaspike.persistence;
 
 import javax.inject.Inject;
 
-import org.apache.deltaspike.data.api.QueryInvocationException;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
@@ -32,15 +31,14 @@ public class RoleRepositoryTest {
 	@Test
 	@InSequence(1)
 	public void testCountByName() {
-		try {
-			repository.countByName("Test");
-		} catch (QueryInvocationException e) {
-			LoggerFactory.getLogger(RoleRepositoryTest.class).error(e.getMessage(), e);
-		}
+//		try {
+		repository.countByName("Test");
+//		} catch (QueryInvocationException e) {
+//			LoggerFactory.getLogger(RoleRepositoryTest.class).error(e.getMessage(), e);
+//		}
 	}
 
 	@Test
-	@Ignore
 	@InSequence(2)
 	public void testFindByName() {
 		repository.findByName("Test");
