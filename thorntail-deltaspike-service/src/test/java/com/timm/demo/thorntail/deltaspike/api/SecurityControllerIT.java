@@ -11,10 +11,9 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.test.api.ArquillianResource;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.wildfly.swarm.arquillian.DefaultDeployment;
+import org.slf4j.LoggerFactory;
 
 import com.timm.demo.thorntail.deltaspike.domain.UserDTO;
 
@@ -28,7 +27,9 @@ public class SecurityControllerIT {
 	@ArquillianResource
 	private URL baseURL;
 
-	private Long userId;
+	private ISecurity security;
+
+	private static Long userId = -1l;
 
 	// private Long roleId;
 
@@ -53,21 +54,19 @@ public class SecurityControllerIT {
 		user.setName("test2");
 		user.setRoles(new String[] { "Test" });
 
-		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
+		ISecurity security = getSecurity();
 		Response response = security.addUser(user);
 
 		MatcherAssert.assertThat(response.getStatus(), Is.is(Response.Status.CREATED.getStatusCode()));
 
-		final String location = response.getHeaderString("location");
-		userId = Long.getLong(location.substring(location.lastIndexOf("/") + 1));
+		userId = Long.parseLong(response.getLocation().getPath().substring(1));
 	}
 
 	@Test
-	@Ignore
 	@RunAsClient
 	@InSequence(2)
 	public void testGetUser() {
-		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
+		ISecurity security = getSecurity();
 		Response response = security.getUser(userId);
 		UserDTO user = response.readEntity(UserDTO.class);
 
@@ -76,24 +75,21 @@ public class SecurityControllerIT {
 	}
 
 	@Test
-	@Ignore
 	@RunAsClient
 	@InSequence(3)
 	public void testFindUser() {
-		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
-		Response response = security.findUser("test@domain.fr");
+		ISecurity security = getSecurity();
+		Response response = security.findUser("test2@domain.fr");
 		UserDTO user = response.readEntity(UserDTO.class);
 
-		MatcherAssert.assertThat(user.getName(), Is.is("Testeur"));
-		MatcherAssert.assertThat(user.getUid(), Is.is("test@domain.fr"));
+		MatcherAssert.assertThat(user.getName(), Is.is("test2"));
 	}
 
 	@Test
-	@Ignore
 	@RunAsClient
 	@InSequence(4)
 	public void testEditUser() {
-		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
+		ISecurity security = getSecurity();
 		Response response = security.getUser(userId);
 		UserDTO user = response.readEntity(UserDTO.class);
 		user.setName("test21");
@@ -103,10 +99,10 @@ public class SecurityControllerIT {
 	}
 
 	@Test
-	@Ignore
+	@RunAsClient
 	@InSequence(5)
 	public void testRemoveUser() {
-		ISecurity security = getSecurity("thorntail-deltaspike-service/user");
+		ISecurity security = getSecurity();
 		Response response = security.removeUser(userId);
 
 		MatcherAssert.assertThat(response.getStatus(), Is.is(Response.Status.OK.getStatusCode()));
@@ -116,7 +112,10 @@ public class SecurityControllerIT {
 	// = Utility methods =
 	// ======================================
 
-	private ISecurity getSecurity(final String endpoint) {
-		return RestClientBuilder.newBuilder().baseUrl(baseURL).build(ISecurity.class);
+	private ISecurity getSecurity() {
+		if (security == null) {
+			security = RestClientBuilder.newBuilder().baseUrl(baseURL).build(ISecurity.class);
+		}
+		return security;
 	}
 }

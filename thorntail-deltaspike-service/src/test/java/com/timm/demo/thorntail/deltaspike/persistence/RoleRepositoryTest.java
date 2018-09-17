@@ -39,6 +39,7 @@ public class RoleRepositoryTest {
 	}
 
 	@Test
+	@Ignore
 	@InSequence(2)
 	public void testFindByName() {
 		repository.findByName("Test");

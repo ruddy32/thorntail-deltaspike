@@ -51,7 +51,7 @@ public interface ISecurity {
 	 * @param uid
 	 */
 	@GET
-	@Path(value = "/user/byUid//{uid}")
+	@Path(value = "/user/byUid/{uid}")
 	@ApiOperation(value = "Find user by UID", notes = "For valid response try UID with not null and not empty value. Other values will generated exceptions", response = UserDTO.class)
 	@ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid ID supplied"),
 			@ApiResponse(code = 404, message = "User not found") })

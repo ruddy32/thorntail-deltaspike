@@ -8,9 +8,9 @@ swarm:
     data-sources:
       thorntail-deltaspike-service-ds:
         driver-name: org.postgresql
-        connection-url: jdbc:postgresql://localhost:5432/sample;init=create schema if not exists sample;
-        user-name: caa
-        password: caa
+        connection-url: jdbc:postgresql://localhost:5432/sample?currentSchema=sample
+        user-name: test
+        password: test
     swagger:
       packages:
         - com.timm.demo.thorntail.deltaspike.api
