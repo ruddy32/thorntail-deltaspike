@@ -58,6 +58,18 @@ public class SecurityControllerTest {
 	@Test
 	@RunAsClient
 	@InSequence(1)
+	public void testUserExists() {
+		ISecurity security = getSecurity();
+		Response response = security.userExists("test2@domain.fr");
+
+		MatcherAssert.assertThat(response.getStatus(), Is.is(Response.Status.OK.getStatusCode()));
+		boolean exists = response.readEntity(boolean.class);
+		MatcherAssert.assertThat(exists, Is.is(false));
+	}
+
+	@Test
+	@RunAsClient
+	@InSequence(2)
 	public void testAddUser() {
 		final UserDTO user = new UserDTO();
 		user.setUid("test2@domain.fr");
@@ -74,7 +86,7 @@ public class SecurityControllerTest {
 
 	@Test
 	@RunAsClient
-	@InSequence(2)
+	@InSequence(3)
 	public void testGetUser() {
 		ISecurity security = getSecurity();
 		Response response = security.getUser(userId);
@@ -86,7 +98,7 @@ public class SecurityControllerTest {
 
 	@Test
 	@RunAsClient
-	@InSequence(3)
+	@InSequence(4)
 	public void testFindUser() {
 		ISecurity security = getSecurity();
 		Response response = security.findUser("test2@domain.fr");
@@ -97,7 +109,7 @@ public class SecurityControllerTest {
 
 	@Test
 	@RunAsClient
-	@InSequence(4)
+	@InSequence(5)
 	public void testEditUser() {
 		ISecurity security = getSecurity();
 		Response response = security.getUser(userId);
@@ -110,7 +122,7 @@ public class SecurityControllerTest {
 
 	@Test
 	@RunAsClient
-	@InSequence(5)
+	@InSequence(6)
 	public void testRemoveUser() {
 		ISecurity security = getSecurity();
 		Response response = security.removeUser(userId);

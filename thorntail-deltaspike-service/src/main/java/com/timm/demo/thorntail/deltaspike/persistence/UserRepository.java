@@ -1,5 +1,7 @@
 package com.timm.demo.thorntail.deltaspike.persistence;
 
+import java.util.Optional;
+
 import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.Modifying;
 import org.apache.deltaspike.data.api.Query;
@@ -11,10 +13,9 @@ import com.timm.demo.thorntail.deltaspike.entity.User;
 @Repository
 public interface UserRepository extends EntityRepository<User, Long> {
 
-	long countByUid(String uid);
+	Long countByUid(String uid);
 
-	@Query(named = User.SELECT_BY_UID)
-	User findByUid(@QueryParam("uid") String uid);
+	Optional<User> findByUid(String uid);
 
 	@Modifying
 	@Query(named = User.REMOVE_BY_ID)

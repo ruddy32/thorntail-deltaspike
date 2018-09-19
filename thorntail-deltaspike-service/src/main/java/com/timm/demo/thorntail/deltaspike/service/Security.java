@@ -6,6 +6,7 @@ package com.timm.demo.thorntail.deltaspike.service;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import javax.ws.rs.WebApplicationException;
 
 import com.timm.demo.thorntail.deltaspike.domain.RoleDTO;
 import com.timm.demo.thorntail.deltaspike.domain.UserDTO;
@@ -42,7 +43,7 @@ public class Security {
 	}
 
 	public UserDTO findUser(String uid) {
-		User user = userRepository.findByUid(uid);
+		User user = userRepository.findByUid(uid).orElseThrow(() -> new WebApplicationException(404));
 		UserMapper mapper = Selma.builder(UserMapper.class).build();
 		return mapper.asUserDTO(user);
 	}
@@ -75,7 +76,7 @@ public class Security {
 	}
 
 	public RoleDTO findRole(String code) {
-		Role role = roleRepository.findByName(code);
+		Role role = roleRepository.findByName(code).orElseThrow(() -> new WebApplicationException(404));
 		RoleMapper mapper = Selma.builder(RoleMapper.class).build();
 		return mapper.asRoleDTO(role);
 	}
@@ -95,5 +96,13 @@ public class Security {
 
 	public void removeRole(Long id) {
 		roleRepository.remove(roleRepository.findBy(id));
+	}
+
+	public boolean uidExists(String uid) {
+		return userRepository.countByUid(uid) > 0;
+	}
+
+	public boolean notUidExists(String uid) {
+		return userRepository.countByUid(uid) == 0;
 	}
 }

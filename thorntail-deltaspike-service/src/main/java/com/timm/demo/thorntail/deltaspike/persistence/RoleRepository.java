@@ -1,5 +1,7 @@
 package com.timm.demo.thorntail.deltaspike.persistence;
 
+import java.util.Optional;
+
 import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.Modifying;
 import org.apache.deltaspike.data.api.Query;
@@ -11,10 +13,9 @@ import com.timm.demo.thorntail.deltaspike.entity.Role;
 @Repository
 public interface RoleRepository extends EntityRepository<Role, Long> {
 
-	long countByName(String name);
+	Long countByName(String name);
 
-	@Query(named = Role.SELECT_BY_NAME)
-	Role findByName(@QueryParam("name") String name);
+	Optional<Role> findByName(String name);
 
 	@Modifying
 	@Query(value = Role.REMOVE_BY_ID)

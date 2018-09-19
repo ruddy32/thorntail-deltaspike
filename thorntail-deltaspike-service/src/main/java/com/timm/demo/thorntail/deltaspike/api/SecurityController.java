@@ -26,6 +26,12 @@ public class SecurityController implements ISecurity {
 	private Security security;
 
 	@Override
+	public Response userExists(String uid) {
+		boolean exists = security.uidExists(uid);
+		return Response.ok(exists).build();
+	}
+
+	@Override
 	public Response findUser(String uid) {
 		UserDTO user = security.findUser(uid);
 		return Response.ok(user).build();

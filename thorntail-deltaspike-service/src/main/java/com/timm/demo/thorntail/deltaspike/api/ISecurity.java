@@ -58,6 +58,17 @@ public interface ISecurity {
 	Response findUser(@PathParam("uid") String uid);
 
 	/**
+	 * Find user accout from UID.
+	 *
+	 * @param uid
+	 */
+	@GET
+	@Path(value = "/user/exists/{uid}")
+	@ApiOperation(value = "Check user UID exists", notes = "For valid response try UID with not null and not empty value. Other values will generated exceptions", response = UserDTO.class)
+	@ApiResponses(value = { @ApiResponse(code = 400, message = "Invalid UID supplied") })
+	Response userExists(@PathParam("uid") String uid);
+
+	/**
 	 * User authentication.
 	 *
 	 * @param auth

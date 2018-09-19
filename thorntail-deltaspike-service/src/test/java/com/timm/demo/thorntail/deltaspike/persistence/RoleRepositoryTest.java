@@ -1,6 +1,7 @@
 package com.timm.demo.thorntail.deltaspike.persistence;
 
 import javax.inject.Inject;
+import javax.ws.rs.WebApplicationException;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -49,7 +50,7 @@ public class RoleRepositoryTest {
 	@Ignore
 	@InSequence(3)
 	public void testRemoveLong() {
-		Role role = repository.findByName("Test");
+		Role role = repository.findByName("Test").orElseThrow(() -> new WebApplicationException(404));
 		repository.remove(role.getId());
 	}
 }
