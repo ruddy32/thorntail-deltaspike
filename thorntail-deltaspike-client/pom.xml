@@ -1,0 +1,172 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.timm.thorntail</groupId>
+		<artifactId>soa-client-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../../soa-client-parent</relativePath>
+	</parent>
+
+	<artifactId>thorntail-deltaspike-service-client</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>${project.artifactId}</name>
+	<url>http://maven.sirhen-dev.in.orion.education.fr/${project.artifactId}/${project.version}</url>
+	<dependencies>
+		<!-- You can find the dependencies for the library configuation you chose by looking in JavaClientCodegen. Then find the 
+			corresponding dependency on Maven Central, and set the versions in the property section below -->
+
+		<!-- Java EE server embedded client -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JSON processing: jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId> jackson-datatype-jdk8</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+
+		<!-- Joda time: if you use it -->
+		<!-- <dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-joda</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency> -->
+
+		<!-- Base64 encoding that works in both JVM and Android -->
+		<dependency>
+			<groupId>com.brsanthu</groupId>
+			<artifactId>migbase64</artifactId>
+			<version>2.2</version>
+		</dependency>
+		
+		<!-- <dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>mas-sirh-security-service</artifactId>
+			<version>${project.version}</version>
+			<type>wadl</type>
+		</dependency> -->
+	</dependencies>
+	<build>
+		<plugins>
+			<!-- activate the plugin -->
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<!-- specify the swagger yaml -->
+							<inputSpec>${project.basedir}/../target/generated/swagger/yaml/ISecurity.yaml</inputSpec>
+							<!-- target to generate java client code -->
+							<!-- <language>java</language> -->
+							<!-- override the default library to jersey2 -->
+							<!-- <library>resteasy</library> -->
+							<language>jaxrs-cxf-client</language>
+							<!-- <language>jaxrs-spec</language> -->
+							<!-- pass any necessary config options -->
+							<configOptions>
+								<dateLibrary>java8</dateLibrary>
+								<sourceFolder>src/main/java</sourceFolder>
+							</configOptions>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>${project.artifactId}</artifactId>
+							<artifactVersion>${project.version}</artifactVersion>
+	                        <modelPackage>fr.gouv.education.sirh.architect.security.model</modelPackage>
+	                        <apiPackage>fr.gouv.education.sirh.architect.security.client</apiPackage>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- <plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-wadl2java-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>wadl2java</goal>
+						</goals>
+						<configuration>
+							<sourceRoot>${basedir}/target/generated-sources/cxf/src/gen/java</sourceRoot>
+							<wadlOptions>
+								<wadlOption>
+                                    <!- - 
+                                    <wadlArtifact>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>mas-sirh-security-service</artifactId>
+                                        <version>${project.version}</version>
+                                        <type>wadl</type>
+                                    </wadlArtifact>
+                                     - ->
+                                    <wadl>${basedir}/../target/generated/cxf/wadl/ISecurity.wadl</wadl>
+									<packagename>fr.gouv.education.sirh.architect.security.client</packagename>
+									<generateInterface>true</generateInterface>
+									<schemaPackagenames>
+										<schemaPackagename>http://securite=fr.gouv.education.sirh.architect.security.schema</schemaPackagename>
+									</schemaPackagenames>
+								</wadlOption>
+							</wadlOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/cxf/src/gen/java/</source>
+								<!-- <source>${project.build.directory}/generated-sources/swagger/src/gen/java/</source> -->
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<!-- Don't forget the Implementation Version -->
+						<manifestEntries>
+							<Specification-Title>${project.description}</Specification-Title>
+							<Specification-Version>1.0</Specification-Version>
+							<Implementation-Title>${project.name}</Implementation-Title>
+							<Implementation-Version>${project.version}</Implementation-Version>
+							<Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+							<Implementation-URL>${project.url}</Implementation-URL>
+							<Build-Label>${project.version}</Build-Label>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -11,7 +11,7 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("/")
 public class JAXRSActivator extends Application {
 
-	// @PersistenceContext(name = "thorntail-deltaspike")
+	// @PersistenceContext(unitName = "thorntail-deltaspike")
 	// @Produces
 	// private EntityManager entityManager;
 }

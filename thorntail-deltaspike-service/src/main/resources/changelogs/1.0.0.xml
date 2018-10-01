@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+		http://www.liquibase.org/xml/ns/dbchangelog-ext
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	<changeSet id="1" author="sbonnema">
+		<comment>Create role id sequence </comment>
+		<!-- <createSequence catalogName="sample" incrementBy="1" ordered="true" schemaName="sample"
+			sequenceName="role_id_seq" startValue="1" /> -->
+		<createSequence catalogName="sample" incrementBy="1" schemaName="sample"
+			sequenceName="role_id_seq" startValue="1" />
+		<sql dbms="postgresql" stripComments="true">alter sequence sample.role_id_seq owner to "test"
+	        <comment>Set role_id sequence owner to test</comment>
+	    </sql>
+
+		<rollback>
+			<dropSequence catalogName="sample" schemaName="sample" sequenceName="role_id_seq" />
+		</rollback>
+	</changeSet>
+	<changeSet id="2" author="sbonnema">
+		<comment>Create role table</comment>
+		<!-- <createTable catalogName="sample" remarks="User role definition" schemaName="sample" tableName="role"
+			tablespace="sample"> -->
+		<createTable catalogName="sample" remarks="User role definition" schemaName="sample" tableName="role">
+			<column name="role_id" type="bigint" defaultValueSequenceNext="role_id_seq">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="pk_role_id" deleteCascade="true" />
+			</column>
+			<column name="name" type="varchar(64)">
+				<constraints nullable="false" unique="true" uniqueConstraintName="uk_role_name" />
+			</column>
+			<column name="description" type="varchar(256)" />
+			<column name="bl_delete" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+			<column name="ts_create" type="timestamp" defaultValueComputed="${now.default}" >
+				<constraints nullable="false" />
+			</column>
+			<column name="ts_update" type="timestamp" defaultValueComputed="${now.default}" >
+				<constraints nullable="false" />
+			</column>
+			<column name="ts_delete" type="timestamp" defaultValue="null" />
+		</createTable>
+		<sql dbms="postgresql" stripComments="true">alter table sample.role owner to "test";
+			alter index sample.uk_role_name owner to "test";
+			alter index sample.pk_role_id owner to "test"
+	        <comment>Set role table owner to test</comment>
+	    </sql>
+
+		<rollback>
+			<dropTable cascadeConstraints="true" catalogName="sample" schemaName="sample" tableName="role" />
+		</rollback>
+	</changeSet>
+	<changeSet id="3" author="sbonnema">
+		<comment>Create user id sequence </comment>
+		<!-- <createSequence catalogName="sample" incrementBy="1" ordered="true" schemaName="sample"
+			sequenceName="user_id_seq" startValue="1" /> -->
+		<createSequence catalogName="sample" incrementBy="1" schemaName="sample"
+			sequenceName="user_id_seq" startValue="1" />
+		<sql dbms="postgresql" stripComments="true">alter sequence sample.user_id_seq owner to "test"
+	        <comment>Set user_id_seq sequence owner to test</comment>
+	    </sql>
+
+		<rollback>
+			<dropSequence catalogName="sample" schemaName="sample" sequenceName="user_id_seq" />
+		</rollback>
+	</changeSet>
+	<changeSet id="4" author="sbonnema">
+		<comment>Create user table</comment>
+		<!-- <createTable catalogName="sample" remarks="User definition" schemaName="sample" tableName="user"
+			tablespace="sample"> -->
+		<createTable catalogName="sample" remarks="User definition" schemaName="sample" tableName="user">
+			<column name="user_id" type="bigint" defaultValueSequenceNext="user_id_seq">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="pk_user_id" deleteCascade="true" />
+			</column>
+			<column name="uid" type="varchar(64)">
+				<constraints nullable="false" unique="true" uniqueConstraintName="uk_user_uid" />
+			</column>
+			<column name="name" type="varchar(256)" />
+			<column name="bl_delete" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false" />
+			</column>
+			<column name="ts_create" type="timestamp" defaultValueComputed="${now.default}" >
+				<constraints nullable="false" />
+			</column>
+			<column name="ts_update" type="timestamp" defaultValueComputed="${now.default}" >
+				<constraints nullable="false" />
+			</column>
+			<column name="ts_delete" type="timestamp" defaultValue="null" />
+		</createTable>
+		<sql dbms="postgresql" stripComments="true">alter table sample.user owner to "test";
+			alter index sample.uk_user_uid owner to "test";
+			alter index sample.pk_user_id owner to "test"
+	        <comment>Set user table owner to test</comment>
+	    </sql>
+
+		<rollback>
+			<dropTable cascadeConstraints="true" catalogName="sample" schemaName="sample" tableName="user" />
+		</rollback>
+	</changeSet>
+	<changeSet id="5" author="sbonnema">
+		<comment>Create user,role relationship table</comment>
+		<!-- <createTable catalogName="sample" remarks="User,role relation" schemaName="sample"
+			tableName="user_role_rel" tablespace="sample"> -->
+		<createTable catalogName="sample" remarks="User,role relation" schemaName="sample"
+			tableName="user_role_rel">
+			<column name="user_role_rel_user_id" type="bigint">
+				<constraints nullable="false" foreignKeyName="fk_user_role_rel_user_id" references="sample.user(user_id)" />
+			</column>
+			<column name="user_role_rel_role_id" type="bigint">
+				<constraints nullable="false" foreignKeyName="fk_user_role_rel_role_id" references="sample.role(role_id)" />
+			</column>
+		</createTable>
+
+		<!-- <addPrimaryKey catalogName="sample" columnNames="user_role_rel_user_id, user_role_rel_role_id" constraintName="pk_user_role_rel"
+			schemaName="sample" tableName="user_role_rel" tablespace="sample" /> -->
+		<addPrimaryKey catalogName="sample" columnNames="user_role_rel_user_id, user_role_rel_role_id" constraintName="pk_user_role_rel"
+			schemaName="sample" tableName="user_role_rel" />
+
+		<sql dbms="postgresql" stripComments="true">alter table sample.user_role_rel owner to "test";
+			-- alter index sample.fk_user_role_rel_user_id owner to "test";
+			-- alter index sample.fk_user_role_rel_role_id owner to "test";
+			alter index sample.pk_user_role_rel owner to "test"
+	        <comment>Set user_role_rel table owner to test</comment>
+	    </sql>
+
+		<rollback>
+			<dropTable cascadeConstraints="true" catalogName="sample" schemaName="sample" tableName="user_role_rel" />
+		</rollback>
+	</changeSet>
+</databaseChangeLog>

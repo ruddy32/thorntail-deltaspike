@@ -15,8 +15,9 @@
 		<module>soa-parent</module>
 		<module>soa-service-bom</module>
 		<module>soa-service-parent</module>
+		<module>soa-client-bom</module>
+		<module>soa-client-parent</module>
 		<module>thorntail-deltaspike-service</module>
-		<module>thorntail-deltaspike-liquibase-service</module>
-		<module>thorntail-deltaspike-tu-service</module>
+		<module>thorntail-deltaspike-client</module>
 	</modules>
 </project>

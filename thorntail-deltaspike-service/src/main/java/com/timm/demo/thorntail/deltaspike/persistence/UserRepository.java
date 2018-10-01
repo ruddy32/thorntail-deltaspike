@@ -17,6 +17,9 @@ public interface UserRepository extends EntityRepository<User, Long> {
 
 	Optional<User> findByUid(String uid);
 
+	@Query(named = User.COUNT_BY_UID)
+	Long countByUidQuery(@QueryParam("uid") String uid);
+
 	@Modifying
 	@Query(named = User.REMOVE_BY_ID)
 	void remove(@QueryParam("id") Long id);

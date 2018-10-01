@@ -58,9 +58,8 @@ public abstract class ITDeployments {
 		rContainer.addAsResource("META-INF/beans-it.xml", "beans.xml");
 		rContainer.addAsResource("META-INF/persistence-it.xml", "META-INF/persistence.xml");
 		rContainer.addAsResource("META-INF/apache-deltaspike-it.properties", "META-INF/apache-deltaspike.properties");
-		rContainer.addAsResource("META-INF/h2-create.sql", "META-INF/h2-create.sql");
-		rContainer.addAsResource("META-INF/h2-drop.sql", "META-INF/h2-drop.sql");
-		rContainer.addAsResource("META-INF/test-load.sql", "META-INF/test-load.sql");
+		rContainer.addAsResource("db.changelog.xml");
+		rContainer.addAsResource("changelogs");
 
 		return archive;
 	}

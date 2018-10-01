@@ -9,6 +9,7 @@
 		<relativePath>../soa-service-parent</relativePath>
 	</parent>
 
+	<groupId>com.timm.thorntail</groupId>
 	<artifactId>thorntail-deltaspike-service</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
@@ -24,6 +25,9 @@
 		
 		<!-- Arquillian (copy from soa-bom maven project properties) -->
         <arquillian-graphene.version>2.3.2</arquillian-graphene.version>
+        
+        <!-- Service version -->
+        <thorntail-deltaspike-service.version>1.0</thorntail-deltaspike-service.version>
 	</properties>
 
 	<dependencies>
@@ -40,6 +44,14 @@
 		<dependency>
 			<groupId>io.thorntail</groupId>
 			<artifactId>jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-cdi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.mattbertolini</groupId>
+			<artifactId>liquibase-slf4j</artifactId>
 		</dependency>
 
 		<!-- Deltaspike modules -->
@@ -127,6 +139,38 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>interface</id>
+						<!-- bind to the packaging phase -->
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<!-- get all project dependencies -->
+							<descriptors>
+								<descriptor>${project.basedir}/src/main/assembly/iface-assembly.xml</descriptor>
+							</descriptors>
+							<archive>
+								<!-- Don't forget the Implementation Version -->
+								<manifestEntries>
+									<Specification-Title>${project.description} interface</Specification-Title>
+									<Specification-Version>${thorntail-deltaspike-service.version}</Specification-Version>
+									<Implementation-Title>${project.name}-iface</Implementation-Title>
+									<Implementation-Version>${project.version}</Implementation-Version>
+									<Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+									<Implementation-URL>${project.url}</Implementation-URL>
+									<Build-Label>${project.version}</Build-Label>
+								</manifestEntries>
+							</archive>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
 			<plugin>
@@ -192,6 +236,7 @@
                     </execution>
                 </executions>
             </plugin>
+			<!-- 
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-java2wadl-plugin</artifactId>
@@ -214,13 +259,66 @@
 							<classResourceNames>
 								<classResourceName>com.timm.demo.thorntail.deltaspike.api.ISecurity</classResourceName>
 							</classResourceNames>
-							<!-- Enable if support for Javadoc is required, not supported in CXF 2.7.11 -->
-							<!-- <docProvider>org.apache.cxf.maven_plugin.javatowadl.ResourceMapJavaDocProvider</docProvider> -->
+							<!- - Enable if support for Javadoc is required, not supported in CXF 2.7.11 - ->
+							<docProvider>org.apache.cxf.maven_plugin.javatowadl.ResourceMapJavaDocProvider</docProvider>
 							<attachWadl>true</attachWadl>
 							<outputFile>${cxf.wadl.outputPath}/ISecurity.wadl</outputFile>
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			 -->
+			<plugin>
+				<groupId>com.github.kongchen</groupId>
+				<artifactId>swagger-maven-plugin</artifactId>
+				<configuration>
+					<apiSources>
+                      <apiSource>
+                            <springmvc>false</springmvc>
+                            <locations>
+                            	<location>com.timm.demo.thorntail.deltaspike.api.ISecurity</location>
+                            </locations>
+                            <schemes>http,https</schemes>
+                            <host>{hostname}</host>
+                            <!-- <basePath>/thorntail-deltaspike-service</basePath> -->
+                            <basePath>/${project.artifactId}</basePath>
+                            <info>
+                                <title>Service de sécurité</title>
+                                <version>${thorntail-deltaspike-service.version}</version>
+                                <description>Gestion des utilisateurs avec leurs rôles</description>
+                                <termsOfService>
+                                    http://www.github.com/kongchen/swagger-maven-plugin
+                                </termsOfService>
+                                <contact>
+                                    <email>contact@domain.com</email>
+                                    <name>Contact</name>
+                                    <url>http://www.domain.fr</url>
+                                </contact>
+                                <license>
+                                    <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+                                    <name>Apache 2.0</name>
+                                </license>
+                            </info>
+							<securityDefinitions>
+								<securityDefinition>
+									<name>basicAuth</name>
+									<type>basic</type>
+								</securityDefinition>
+								<!-- <securityDefinition>
+									<json>${project.basedir}/securityDefinition.json</json>
+								</securityDefinition> -->
+							</securityDefinitions>
+                            <!-- Support classpath or file absolute path here.
+                            1) classpath e.g: "classpath:/markdown.hbs", "classpath:/templates/hello.html"
+                            2) file e.g: "${basedir}/src/main/resources/markdown.hbs", "${basedir}/src/main/resources/template/hello.html" -->
+                            <templatePath>${basedir}/src/main/resources/templates/strapdown.html.hbs</templatePath>
+                            <outputPath>${swagger.yaml.outputPath}/document.html</outputPath>
+                            <outputFormats>json,yaml</outputFormats>
+                            <swaggerDirectory>${swagger.yaml.outputPath}</swaggerDirectory>
+                            <swaggerFileName>ISecurity</swaggerFileName>
+						</apiSource>
+					</apiSources>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

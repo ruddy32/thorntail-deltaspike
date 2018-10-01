@@ -13,39 +13,40 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.LoggerFactory;
 
-import com.timm.demo.thorntail.deltaspike.entity.Role;
+import com.timm.demo.thorntail.deltaspike.entity.User;
 import com.timm.demo.thorntail.deltaspike.utils.TestDeployments;
 
 @RunWith(Arquillian.class)
-public class RoleRepositoryTest {
+public class UserRepositoryTest {
 
 	@Deployment
 	public static Archive<?> createDeployment() throws IllegalArgumentException {
-		WebArchive archive = TestDeployments.initWebDeployment(RoleRepositoryTest.class.getSimpleName() + ".war");
-		LoggerFactory.getLogger(RoleRepositoryTest.class).debug(archive.toString(true));
+		WebArchive archive = TestDeployments.initWebDeployment(UserRepositoryTest.class.getSimpleName() + ".war");
+		LoggerFactory.getLogger(UserRepositoryTest.class).debug(archive.toString(true));
 		return archive;
 	}
 
 	@Inject
-	private RoleRepository repository;
+	private UserRepository repository;
 
 	@Test
 	@InSequence(1)
-	public void testFindByName() {
-		repository.findByName("Test");
+	public void testCountByUid() {
+		repository.countByUidQuery("test@domain.fr");
 	}
 
 	@Test
 	@InSequence(2)
-	public void testCountByName() {
-		repository.countByNameQuery("Test");
+	public void testFindByUid() {
+		repository.findByUid("test@domain.fr");
 	}
 
 	@Test
 	@Ignore
 	@InSequence(3)
 	public void testRemoveLong() {
-		Role role = repository.findByName("Test").orElseThrow(() -> new WebApplicationException(404));
-		repository.remove(role.getId());
+		User user = repository.findByUid("test@domain.fr").orElseThrow(() -> new WebApplicationException(404));
+		repository.remove(user.getId());
 	}
+
 }

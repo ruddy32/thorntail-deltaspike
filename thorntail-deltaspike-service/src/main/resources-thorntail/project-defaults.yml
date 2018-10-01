@@ -11,6 +11,11 @@ swarm:
         connection-url: jdbc:postgresql://localhost:5432/sample?currentSchema=sample
         user-name: test
         password: test
+      thorntail-deltaspike-service-admin-ds:
+        driver-name: org.postgresql
+        connection-url: jdbc:postgresql://localhost:5432/sample?currentSchema=sample
+        user-name: postgres
+        password: postgres
     swagger:
       packages:
         - com.timm.demo.thorntail.deltaspike.api

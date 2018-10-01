@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+	<property name="now.default" value="now()" dbms="h2" />
+	<property name="now.default" value="(now() at time zone 'utc')" dbms="postgresql" />
+
+	<!-- <include file="changelogs/1.0.0.sql" relativeToChangelogFile="true" /> -->
+	<include file="changelogs/1.0.0.xml" relativeToChangelogFile="true" />
+
+</databaseChangeLog>

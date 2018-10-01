@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.timm.thorntail</groupId>
+		<artifactId>soa-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../soa-parent</relativePath>
+	</parent>
+	
+	<artifactId>soa-client-parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>${project.artifactId}</name>
+	<description>SOA Client Parent project</description>
+
+	<properties>
+		<!-- SOA Service BOM -->
+		<soa-client-bom.version>1.0.0-SNAPSHOT</soa-client-bom.version>
+		<thorntail.version>2.1.0.Final</thorntail.version>
+        <swagger.version>1.5.18</swagger.version>
+		<swagger.yaml.outputPath>${basedir}/target/generated/swagger/yaml</swagger.yaml.outputPath>
+		
+		<!-- Maven plugins -->
+		<swagger-codegen-maven-plugin.version>2.3.1</swagger-codegen-maven-plugin.version>
+		<cxf-codegen-plugin.version>3.2.5</cxf-codegen-plugin.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill of Materials (BOM). A BOM specifies the versions 
+				of a "stack" (or a collection) of artifacts. We use this here so that we always get the correct versions of artifacts. Here 
+				we use the jboss-javaee-6.0-with-deltaspike stack (you can read this as the JBoss stack of the Java EE 6 APIs with Deltaspike). 
+				You can actually use this stack with any version of JBoss that implements Java EE 6, not just JBoss EAP 6! -->
+			<dependency>
+				<groupId>com.timm.thorntail</groupId>
+				<artifactId>soa-client-bom</artifactId>
+				<version>${soa-client-bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<!-- 
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-jaxrs</artifactId>
+		</dependency>
+		 -->
+		<!-- Fractions introduced by MicroProfile 1.0 -->
+		<dependency>
+			<groupId>io.thorntail</groupId>
+			<artifactId>microprofile-restclient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxb-provider</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson2-provider</artifactId>
+		</dependency>
+
+		<!-- Logging -->
+		<!-- <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+		</dependency> -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+                <!-- This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+										<groupId>org.apache.cxf</groupId>
+										<artifactId>cxf-wadl2java-plugin</artifactId>
+                                        <versionRange>[${cxf-wadl2java-plugin.version},)</versionRange>
+                                        <goals>
+                                            <goal>wadl2java</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+										<groupId>io.swagger</groupId>
+										<artifactId>swagger-codegen-maven-plugin</artifactId>
+                                        <versionRange>[${swagger-codegen-maven-plugin.version},)</versionRange>
+                                        <goals>
+                                            <goal>generate</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+
+				<plugin>
+					<groupId>io.swagger</groupId>
+					<artifactId>swagger-codegen-maven-plugin</artifactId>
+					<version>${swagger-codegen-maven-plugin.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>generate</goal>
+							</goals>
+							<configuration>
+								<!-- specify the swagger yaml -->
+								<inputSpec>swagger-2.yaml</inputSpec>
+	
+								<!-- target to generate java client code -->
+								<language>java</language>
+	
+								<!-- pass any necessary config options -->
+								<configOptions>
+									<dateLibrary>joda</dateLibrary>
+								</configOptions>
+	
+								<!-- override the default library to jersey2 -->
+								<!-- <library>jersey2</library> -->
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-wadl2java-plugin</artifactId>
+					<version>${cxf-wadl2java-plugin.version}</version>
+					<!-- <executions>
+						<execution>
+							<id>generate-sources</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>wadl2java</goal>
+							</goals>
+							<configuration>
+								<sourceRoot>${basedir}/target/generated/cxf/src/main/java</sourceRoot>
+								<wadlOptions>
+									<wadlOption>
+	                                   <wadlArtifact>
+	                                        <groupId>${project.groupId}</groupId>
+	                                        <artifactId>thorntail-deltaspike-service</artifactId>
+	                                        <version>${project.version}</version>
+	                                        <type>wadl</type>
+	                                    </wadlArtifact>
+	                                    <wadl>${basedir}/../service/target/generated/cxf/wadl/ISecurity.wadl</wadl>
+										<impl>true</impl>
+										<interface>true</interface>
+										<packagename>com.timm.demo.thorntail.deltaspike.client</packagename>
+										<schemaPackagenames>
+											<schemaPackagename>http://securite=com.timm.demo.thorntail.deltaspike.schema</schemaPackagename>
+										</schemaPackagenames>
+									</wadlOption>
+								</wadlOptions>
+							</configuration>
+						</execution>
+					</executions> -->
+				</plugin>
+				<!-- <plugin>
+					<groupId>org.apache.cxf</groupId>
+					<artifactId>cxf-codegen-plugin</artifactId>
+					<version>${cxf-codegen-plugin.version}</version>
+					<configuration>
+						<fork>once</fork>
+						<additionalJvmArgs>-Djava.endorsed.dirs=${project.build.directory}/endorsed</additionalJvmArgs>
+						rest of the normal codegen configuration options
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>com.sun.xml.bind</groupId>
+							<artifactId>jaxb-impl</artifactId>
+							<version>2.2.11</version>
+						</dependency>
+						<dependency>
+							<groupId>com.sun.xml.bind</groupId>
+							<artifactId>jaxb-xjc</artifactId>
+							<version>2.2.11</version>
+						</dependency>
+					</dependencies>
+				</plugin> -->
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

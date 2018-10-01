@@ -43,7 +43,7 @@ public class EntityManagerProducer {
 
 	private static final String DEFAULT_PERSISTENCE_UNIT = "thorntail-deltaspike";
 
-	@PersistenceContext(name = DEFAULT_PERSISTENCE_UNIT)
+	@PersistenceContext(unitName = DEFAULT_PERSISTENCE_UNIT)
 	@Produces
 	private EntityManager em;
 

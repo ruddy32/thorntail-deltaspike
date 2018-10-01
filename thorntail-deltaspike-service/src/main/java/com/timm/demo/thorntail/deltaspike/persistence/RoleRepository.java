@@ -17,7 +17,10 @@ public interface RoleRepository extends EntityRepository<Role, Long> {
 
 	Optional<Role> findByName(String name);
 
+	@Query(named = Role.COUNT_BY_NAME)
+	Long countByNameQuery(@QueryParam("name") String name);
+
 	@Modifying
-	@Query(value = Role.REMOVE_BY_ID)
+	@Query(named = Role.REMOVE_BY_ID)
 	void remove(@QueryParam("id") Long id);
 }

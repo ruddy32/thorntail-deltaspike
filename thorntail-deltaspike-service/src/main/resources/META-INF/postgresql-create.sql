@@ -4,7 +4,7 @@
 --
 
 CREATE SEQUENCE IF NOT EXISTS sample.role_id_seq;
-ALTER TABLE sample.role_id_seq OWNER TO "test";
+ALTER TABLE sample.role_id_seq OWNER TO 'test';
 
 CREATE TABLE IF NOT EXISTS sample.role (
   id bigint NOT NULL default nextval('sample.role_id_seq') PRIMARY KEY,
@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS sample.role (
   ts_update timestamp NOT NULL default (now() at time zone 'utc'),
   ts_delete timestamp default null
 );
-ALTER TABLE sample.role OWNER TO "test";
 COMMENT ON TABLE sample.role IS 'Role';
 COMMENT ON COLUMN sample.role.id IS 'Role technical idenfier';
 COMMENT ON COLUMN sample.role.name IS 'Role name';
@@ -24,13 +23,14 @@ COMMENT ON COLUMN sample.role.bl_delete IS 'Logical delete';
 COMMENT ON COLUMN sample.role.ts_create IS 'Creation date/time';
 COMMENT ON COLUMN sample.role.ts_update IS 'Last update date/time';
 COMMENT ON COLUMN sample.role.ts_delete IS 'Logical delete date/time';
+ALTER TABLE sample.role OWNER TO 'test';
 
 --
 -- User
 --
 
 CREATE SEQUENCE IF NOT EXISTS sample.user_id_seq;
-ALTER TABLE sample.user_id_seq OWNER TO "test";
+ALTER TABLE sample.user_id_seq OWNER TO 'test';
 
 CREATE TABLE IF NOT EXISTS sample.user (
   id bigint NOT NULL default nextval('sample.user_id_seq') PRIMARY KEY,
@@ -41,7 +41,6 @@ CREATE TABLE IF NOT EXISTS sample.user (
   ts_update timestamp NOT NULL default (now() at time zone 'utc'),
   ts_delete timestamp default null
 );
-ALTER TABLE sample.user OWNER TO "test";
 COMMENT ON TABLE sample.user IS 'User';
 COMMENT ON COLUMN sample.user.id IS 'User technical idenfier';
 COMMENT ON COLUMN sample.user.uid IS 'User identifier (e-mail)';
@@ -50,3 +49,4 @@ COMMENT ON COLUMN sample.user.bl_delete IS 'Logical delete';
 COMMENT ON COLUMN sample.user.ts_create IS 'Creation date/time';
 COMMENT ON COLUMN sample.user.ts_update IS 'Last update date/time';
 COMMENT ON COLUMN sample.user.ts_delete IS 'Logical delete date/time';
+ALTER TABLE sample.user OWNER TO 'test';

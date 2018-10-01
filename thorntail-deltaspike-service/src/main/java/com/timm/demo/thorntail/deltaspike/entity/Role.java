@@ -16,18 +16,21 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "role", schema = "sample")
 @SequenceGenerator(name = "role_id_seq", sequenceName = "sample.role_id_seq", allocationSize = 1)
-@NamedQueries({ @NamedQuery(name = Role.SELECT_BY_NAME, query = "select r from Role r where r.name = :name"),
+@NamedQueries({ @NamedQuery(name = Role.COUNT_BY_NAME, query = "select count(r) from Role r where r.name = :name"),
+		@NamedQuery(name = Role.SELECT_BY_NAME, query = "select r from Role r where r.name = :name"),
 		@NamedQuery(name = Role.REMOVE_BY_ID, query = "delete from Role r where r.id = :id") })
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = 9085805868993959754L;
 
-	public static final String SELECT_BY_NAME = "role.selectByName";
+	public static final String COUNT_BY_NAME = "Role.countByName";
 
-	public static final String REMOVE_BY_ID = "role.removeById";
+	public static final String SELECT_BY_NAME = "Role.selectByName";
+
+	public static final String REMOVE_BY_ID = "Role.removeById";
 
 	@Id
-	@Column(name = "id")
+	@Column(name = "role_id")
 //	@GeneratedValue(strategy = GenerationType.AUTO)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_seq")
 	private Long id;

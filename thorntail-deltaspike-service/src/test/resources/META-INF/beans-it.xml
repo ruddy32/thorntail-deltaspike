@@ -4,5 +4,6 @@
 	bean-discovery-mode="annotated">
 	<alternatives>
 		<!-- <class>com.timm.demo.thorntail.deltaspike.EntityManagerProducerTest</class> -->
+		<class>com.timm.demo.thorntail.deltaspike.persistence.LiquibaseTestProducer</class>
 	</alternatives>
 </beans>

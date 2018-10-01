@@ -99,10 +99,10 @@ public class Security {
 	}
 
 	public boolean uidExists(String uid) {
-		return userRepository.countByUid(uid) > 0;
+		return userRepository.countByUidQuery(uid) > 0;
 	}
 
 	public boolean notUidExists(String uid) {
-		return userRepository.countByUid(uid) == 0;
+		return userRepository.countByUidQuery(uid) == 0;
 	}
 }
