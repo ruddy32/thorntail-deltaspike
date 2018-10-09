@@ -5,10 +5,10 @@
 		<groupId>com.timm.thorntail</groupId>
 		<artifactId>soa-client-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>../../soa-client-parent</relativePath>
+		<relativePath>../soa-client-parent</relativePath>
 	</parent>
 
-	<artifactId>thorntail-deltaspike-service-client</artifactId>
+	<artifactId>thorntail-deltaspike-client</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0.0-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
@@ -25,10 +25,6 @@
 		</dependency>
 
 		<!-- JSON processing: jackson -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.jaxrs</groupId>
-			<artifactId>jackson-jaxrs-json-provider</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId> jackson-datatype-jdk8</artifactId>
@@ -74,14 +70,9 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<!-- specify the swagger yaml -->
-							<inputSpec>${project.basedir}/../target/generated/swagger/yaml/ISecurity.yaml</inputSpec>
-							<!-- target to generate java client code -->
-							<!-- <language>java</language> -->
-							<!-- override the default library to jersey2 -->
-							<!-- <library>resteasy</library> -->
-							<language>jaxrs-cxf-client</language>
-							<!-- <language>jaxrs-spec</language> -->
+							<inputSpec>${project.basedir}/../thorntail-deltaspike-service/target/generated/swagger/ISecurity.yaml</inputSpec>
+							<language>java</language>
+							<library>retrofit2</library>
 							<!-- pass any necessary config options -->
 							<configOptions>
 								<dateLibrary>java8</dateLibrary>
@@ -90,8 +81,8 @@
 							<groupId>${project.groupId}</groupId>
 							<artifactId>${project.artifactId}</artifactId>
 							<artifactVersion>${project.version}</artifactVersion>
-	                        <modelPackage>fr.gouv.education.sirh.architect.security.model</modelPackage>
-	                        <apiPackage>fr.gouv.education.sirh.architect.security.client</apiPackage>
+	                        <modelPackage>com.timm.thorntail.security.model</modelPackage>
+	                        <apiPackage>com.timm.thorntail.security.client</apiPackage>
 						</configuration>
 					</execution>
 				</executions>
@@ -119,10 +110,10 @@
                                     </wadlArtifact>
                                      - ->
                                     <wadl>${basedir}/../target/generated/cxf/wadl/ISecurity.wadl</wadl>
-									<packagename>fr.gouv.education.sirh.architect.security.client</packagename>
+									<packagename>com.timm.thorntail.security.client</packagename>
 									<generateInterface>true</generateInterface>
 									<schemaPackagenames>
-										<schemaPackagename>http://securite=fr.gouv.education.sirh.architect.security.schema</schemaPackagename>
+										<schemaPackagename>http://securite=com.timm.thorntail.security.schema</schemaPackagename>
 									</schemaPackagenames>
 								</wadlOption>
 							</wadlOptions>

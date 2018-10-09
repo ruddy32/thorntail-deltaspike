@@ -21,8 +21,6 @@
 		<h2.version>1.4.197</h2.version>
 		<postgresql.version>42.2.4</postgresql.version>
 		
-		<cxf.wadl.outputPath>${basedir}/target/generated/cxf/wadl</cxf.wadl.outputPath>
-		
 		<!-- Arquillian (copy from soa-bom maven project properties) -->
         <arquillian-graphene.version>2.3.2</arquillian-graphene.version>
         
@@ -224,14 +222,21 @@
                     <execution>
                         <phase>install</phase>
                         <goals>
-                            <goal>install</goal>
+                            <goal>install-file</goal>
                         </goals>
-                        <configuration>
+                        <!-- <configuration>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>${project.artifactId}</artifactId>
                             <version>${project.version}</version>
                             <packaging>wadl</packaging>
                             <file>${cxf.wadl.outputPath}/ISecurity.wadl</file>
+                        </configuration> -->
+                        <configuration>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <version>${thorntail-deltaspike-service.version}</version>
+                            <packaging>yaml</packaging>
+                            <file>${swagger.yaml.outputPath}/ISecurity.yaml</file>
                         </configuration>
                     </execution>
                 </executions>

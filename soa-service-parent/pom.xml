@@ -20,7 +20,8 @@
 		<soa-service-bom.version>1.0.0-SNAPSHOT</soa-service-bom.version>
 		<thorntail.version>2.1.0.Final</thorntail.version>
         <swagger.version>1.5.18</swagger.version>
-		<swagger.yaml.outputPath>${basedir}/target/generated/swagger/yaml</swagger.yaml.outputPath>
+		<swagger.yaml.outputPath>${basedir}/target/generated/swagger</swagger.yaml.outputPath>
+		<cxf.wadl.outputPath>${basedir}/target/generated/cxf</cxf.wadl.outputPath>
 		
 		<!-- Arquillian (copy from soa-bom maven project properties) -->
         <arquillian-graphene.version>2.3.2</arquillian-graphene.version>
